@@ -1,0 +1,169 @@
+# https://plotly.com/blog/automate-excel-reports-with-python/
+
+#팬더 및 플롯 설치 - 아래 코드는 콘솔창에 입력한다
+# pip install pandas
+# pip install plotly
+
+# --------------------------------------------------------------------------
+
+#라이브러리를 가져오고 사용하기 쉽도록 별칭을 지정합니다.
+import pandas as pd
+
+import plotly.express as px
+
+import plotly.io as pio
+
+# --------------------------------------------------------------------------
+
+#데이터세트를 읽고 변수 df에 저장
+df = pd.read_excel('data1.xlsx')
+
+# 총 매출을 계산하고 이에 대한 새 열을 추가합니다.
+df['Total Sales'] = df['Units Sold'] * df['Price per unit']
+
+# --------------------------------------------------------------------------
+
+# 제품 대 총 판매량의 막대 차트를 만듭니다.
+fig = px.bar(df, x='Product', y='Total Sales', title='Product Sales')
+
+# 차트 영역의 테두리와 배경색을 설정합니다.
+fig.update_layout(
+    plot_bgcolor='white',
+    paper_bgcolor='lightgray',
+    width=300,
+    height=300,
+    shapes=[dict(type='rect', xref='paper',
+            yref='paper',
+            x0=0,
+            y0=0,
+            x1=1,
+            y1=1,
+            line=dict(
+                color='black',
+                width=2,
+            ),
+        )
+    ]
+)
+
+#그래프를 표시하다
+fig.show()
+
+# 또는 아래 코드 줄을 사용하여 막대 그래프를 이미지에 저장할 수도 있습니다
+pio.write_image(fig, 'bar1_graph.png')
+
+# --------------------------------------------------------------------------
+
+# 데이터 손실을 방지하기 위해 'report.xlsx'라는 새 Excel 파일 만들기
+writer = pd.ExcelWriter('report1.xlsx', engine='xlsxwriter')
+
+#업데이트된 데이터를 시트 이름이 'Sales Data'인 Excel 파일에 저장합니다.
+df.to_excel(writer, index=False, sheet_name='Sales Data')
+
+#'ExcelWriter' 함수를 사용하여 앞서 생성한 엑셀 파일 내에 'worksheet'라는 워크시트 개체를 생성합니다.
+worksheet = writer.sheets['Sales Data']
+
+# 새로 생성된 Excel 파일에 차트를 추가합니다.
+worksheet.insert_image('H1', 'bar1_graph.png')
+
+# 마지막으로 파일을 저장합니다
+writer._save()
+
+# --------------------------------------------------------------------------
+
+# Excel 보고서 형식 지정
+# 클라이언트나 고객에게 보고서를 제시할 때 또는 향후 사용을 위해 
+# Excel 시트 형식을 지정하는 것이 중요한 역할을 합니다.
+# 이는 데이터의 가독성과 시각적 매력을 향상시켜 보다 효과적인 해석과 통찰력 공유를 가능하게 합니다.
+# 새로 생성된 보고서의 다양한 형식 지정 스타일을 보여주기 위해 openpyxl을 사용할 것입니다.
+
+# 필요한 패키지와 Excel 보고서 파일을 가져오겠습니다.
+# Excel 파일을 불러오는 데 사용
+from openpyxl import load_workbook
+# 여러 스타일 관련 모듈을 import
+from openpyxl.styles import Alignment, Border, Side, PatternFill
+
+# 기존 통합 문서를 로드하고 활성 워크시트를 선택합니다.
+wb = load_workbook('report1.xlsx') 
+ws = wb.active
+
+# --------------------------------------------------------------------------
+
+# 1. 정렬(Alignment):
+# 모든 열의 너비를 20으로 설정
+for col in ws.columns: 
+    ws.column_dimensions[col[0].column_letter].width = 20
+
+# 셀의 텍스트를 왼쪽 정렬로 설정합니다.
+for row in ws.iter_rows(min_row=1, max_row=6, min_col=1, max_col=ws.max_column): 
+     for cell in row: 
+         cell.alignment = Alignment(horizontal='left')
+
+
+# 수정된 통합 문서를 Excel 파일에 저장
+# 아래 코드는 중복되면 안됨 마지막에 한번만 실행되어야 함
+# wb.save('report1.xlsx')
+# print(f"Excel 파일이 수정 되었습니다")
+
+# --------------------------------------------------------------------------
+
+# 2. 테두리 추가(Adding borders):
+
+# 새 통합 문서를 만들고 활성 워크시트를 선택합니다.
+
+# wb = load_workbook('report1.xlsx') 
+# ws = wb.active
+
+# 특정 셀 범위 주위에 테두리를 설정합니다.
+range_border = Border(left=Side(style='medium'),     
+                       right=Side(style='medium'), 
+                       top=Side(style='medium'),  
+                       bottom=Side(style='medium'))
+
+for row in ws.iter_rows(min_row=1, max_row=6, min_col=1, max_col=ws.max_column): 
+       for cell in row: 
+         cell.border = range_border
+
+
+# 수정된 통합 문서를 Excel 파일에 저장
+# 아래 코드는 중복되면 안됨 마지막에 한번만 실행되어야 함
+# wb.save('report1.xlsx')
+# print(f"Excel 파일이 수정 되었습니다")
+
+# --------------------------------------------------------------------------
+
+# 3. 열강조 표시(Highlighting the columns)
+# 열을 강조 표시하기 위한 채우기 패턴을 정의합니다.
+fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+
+# 시트의 첫 번째 열을 강조 표시합니다.
+for col in ws.iter_cols(min_col=1, max_col=1):
+    for cell in col:
+        cell.fill = fill
+
+# 수정된 통합 문서를 Excel 파일에 저장
+# 아래 코드는 중복되면 안됨 마지막에 한번만 실행되어야 함
+# wb.save('report1.xlsx')
+# print(f"Excel 파일이 수정 되었습니다")
+
+# --------------------------------------------------------------------------
+
+# 4. 글꼴 스타일 추가(Adding font styles:)
+# 첫 번째 행의 글꼴 스타일을 설정합니다.
+from openpyxl.styles import Font, PatternFill
+font = Font(name='Times New Roman', bold=True)
+
+# 첫 번째 행의 배경색을 설정합니다.
+fill = PatternFill(start_color='23C4ED', end_color='23C4ED', fill_type='solid') 
+for row in ws.iter_rows(min_row=1, max_row=1): 
+    if row[0].row == 1: 
+       for cell in row: 
+           cell.fill = fill 
+           cell.font = font
+
+# 수정된 통합 문서를 Excel 파일에 저장
+# 아래 코드는 중복되면 안됨 마지막에 한번만 실행되어야 함
+# wb.save('report1.xlsx')
+# print(f"Excel 파일이 수정 되었습니다")
+
+# --------------------------------------------------------------------------         
