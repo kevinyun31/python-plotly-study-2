@@ -6,12 +6,13 @@
 # 모든 것을 Python 함수로 래핑하기
 
 # 코드가 다루기 쉬울 뿐만 아니라 재사용이 가능하고 읽기 쉽도록 모든 코드를 각각의 Python 함수로 래핑해 보겠습니다.
-
+     
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
+
 
 #스프레드시트 자동화 기능
 def automate_excel_report(inputFilename, outputFilename):
@@ -124,15 +125,15 @@ def automate_excel_pivot_table(inputFilename, outputFilename):
 
 # 이제 Python 함수를 호출하고 파일 이름을 전달하기만 하면 됩니다. 예:
 
-#'data.xlsx'라는 파일을 전달하는 중입니다. 입력으로 'report.xlsx'라는 새 파일이 생성됩니다. 출력으로
+#'data2.xlsx'라는 파일을 전달하는 중입니다. 입력으로 'report2.xlsx'라는 새 파일이 생성됩니다. 출력으로
 automate_excel_report('data2.xlsx', 'report2.xlsx')
 print(f"### data2.xlsx파일을 가져와서 report2.xlsx을 작성하였습니다.")
 
-#'report.xlsx' 전달 할 함수를 사용하여 생성된 파일은 'formattedReport.xlsx'라는 새로운 형식의 Excel 파일을 생성합니다.
+#'report2.xlsx' 전달 할 함수를 사용하여 생성된 파일은 'formattedReport2.xlsx'라는 새로운 형식의 Excel 파일을 생성합니다.
 automate_excel_formatting('report2.xlsx', 'formattedReport2.xlsx')
 print(f"### report2.xlsx파일을 가져와서 formattedReport2.xlsx을 작성하였습니다.")
 
-#'pivot_dataset.xlsx'라는 파일 전달 pivotTable.xlsx라는 새 파일이 생성됩니다.
+#'pivot_dataset5.xlsx'라는 파일 전달 pivotTable2.xlsx라는 새 파일이 생성됩니다.
 automate_excel_pivot_table('supermarket_sales5.xlsx', 'pivotTable2.xlsx')
 print(f"### supermarket_sales5.xlsx파일을 가져와서 pivotTable2.xlsx을 작성하였습니다.")
 

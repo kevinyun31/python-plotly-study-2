@@ -155,6 +155,6 @@ for row in ws.iter_rows(min_row=1, max_row=1):
 # 수정된 통합 문서를 Excel 파일에 저장
 # 아래 코드는 중복되면 안됨 마지막에 한번만 실행되어야 함
 # wb.save('report2.xlsx')
-# print(f"Excel 파일이 수정 되었습니다 : {excel_path}")
+print(f"Excel 파일이 수정 되었습니다 : {excel_path}")
 
 # --------------------------------------------------------------------------

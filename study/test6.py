@@ -126,15 +126,15 @@ def automate_excel_pivot_table(inputFilename, outputFilename):
 
 # Now you just need to call the Python functions and pass the filename to it. Example:
 
-#passing my file named 'data.xlsx' as an input will create a new file named 'report.xlsx' as an output
+#passing my file named 'data1.xlsx' as an input will create a new file named 'repor1.xlsx' as an output
 automate_excel_report('data1.xlsx', 'report1.xlsx')
 print(f"### data1.xlsx파일을 가져와서 report1.xlsx을 작성하였습니다.")
 
-#passing the 'report.xlsx' file generated using the above function will create a new formatted excel file named 'formattedReport.xlsx'
+#passing the 'report1.xlsx' file generated using the above function will create a new formatted excel file named 'formattedReport1.xlsx'
 automate_excel_formatting('report1.xlsx', 'formattedReport1.xlsx')
 print(f"### report1.xlsx파일을 가져와서 formattedReport1.xlsx을 작성하였습니다.")
 
-#passing the file named 'pivot_dataset.xlsx' will create a new file named pivotTable.xlsx
+#passing the file named 'pivot_datase4.xlsx' will create a new file named pivotTable1.xlsx
 automate_excel_pivot_table('supermarket_sales4.xlsx', 'pivotTable1.xlsx')
 print(f"### supermarket_sales4.xlsx파일을 가져와서 pivotTable1.xlsx을 작성하였습니다.")
 
