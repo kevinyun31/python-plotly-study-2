@@ -146,6 +146,3 @@ print(f"### 축하합니다! 모든 작업이 완료 되었습니다.")
 # Now, the only remaining task is to set a schedule for the script mentioned above, 
 # whether it's on a daily, weekly, or monthly basis, depending on your specific needs.
 # You can use tools such as Crontab, Task Scheduler, Automator, or Anacron as per your use case.
-
-
-
