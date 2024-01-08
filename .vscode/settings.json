@@ -1,11 +1,14 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "java.project.sourcePaths": ["src"],
+    "python.languageServer": "Pylance",
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ],
     "editor.fontSize": 14,
     "editor.lineHeight": 1.2,
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "off"
   }
