@@ -10,4 +10,4 @@ ws = wb.active # 현재 활성화된 워크시트 불러오기
 # ws.insert_cols(2) # B번째 열이 비워짐 (새로운 빈 열이 추가)
 ws.insert_cols(2, 3) # B번째 열로부터 3열 추가
 wb.save("sample_insert_cols.xlsx")
-
+print(" < 모두 성공 적으로 완성되었습니다 > ")

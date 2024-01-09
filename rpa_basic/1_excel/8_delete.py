@@ -10,3 +10,4 @@ ws = wb.active
 # ws.delete_cols(2) # 2번째 열 (B) 삭제
 ws.delete_cols(2, 2) # 2번째 열로부터 총 2개 열 삭제
 wb.save("sample_delete_col.xlsx")
+print(" < 모두 성공 적으로 완성되었습니다 > ")
