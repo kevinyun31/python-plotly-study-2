@@ -2,7 +2,7 @@ from openpyxl import Workbook
 from random import *
 
 wb = Workbook()
-ws = wb.active
+ws = wb.active # 현재 활성화된 워크시트 불러오기
 
 # 1줄씩 데이터 넣기, randit = random + int 
 ws.append(["번호", "영어", "수학"]) # A, B, C
