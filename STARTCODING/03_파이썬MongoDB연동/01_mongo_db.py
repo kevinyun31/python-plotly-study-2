@@ -1,8 +1,10 @@
+from multiprocessing.reduction import duplicate
 import pprint
 from urllib.parse import quote_from_bytes
 from pymongo import MongoClient
 import datetime
 
+# =======================================================================================
 
 # 1. DB연결 - MongoClient
 # 방법1 - URI
@@ -12,9 +14,10 @@ import datetime
 # 방법2 - HOST, PORT
 client = MongoClient(host='localhost', port=27017)
 
-print(' /// ', client.list_database_names())
-# ['admin', 'config', 'local', 'video']
+print(' /// ', client.list_database_names()) # ['admin', 'config', 'local', 'video']
+print()
 
+# =======================================================================================
 
 # 2. DB 접근
 # 방법1
@@ -23,6 +26,7 @@ print(' /// ', client.list_database_names())
 # 방법2
 db = client['mydb']
 
+# =======================================================================================
 
 # 3. Collection 접근
 # 방법1
@@ -31,6 +35,7 @@ db = client['mydb']
 # 방법2
 collection = db['mycol']
 
+# =======================================================================================
 
 # 4. Documents 생성
 post = {'author': 'Mike',
@@ -38,7 +43,9 @@ post = {'author': 'Mike',
         'tags': ['mongodb', 'python', 'pymongo'],
         'date': datetime.datetime.utcnow()
         }
+print()
 
+# =======================================================================================
 
 # 5. Collection 접근 및 Document 추가
 # Collection 접근 - 'posts' collection
@@ -50,11 +57,12 @@ print(f' /// Inserted document ID: {post_id}')
 
 # Collection 리스트 조회
 print(' /// Collections in the database:', db.list_collection_names())
+print()
 
 # # Collection 내 단일 Document 조회
 # import pprint
 pprint.pprint(posts.find_one())
-
+print()
 
 # # 쿼리를 통한 Documents 조회
 # pprint.pprint(posts.find_one({'author': "Mike"}))
@@ -79,23 +87,45 @@ pprint.pprint(posts.find_one())
 # 쿼리를 통한 Documents 조회
 # for post in posts.find({'author': 'Mike'}):
 #     pprint.pprint(post)
-    
-    
+
+# =======================================================================================
+
 # 6. 카운팅
 # 컬렉션 내 도큐먼트 수 조회
 document_count = posts.count_documents({})
-print(f" /// Number of documents in the collection: {document_count}")  
+print(f" /// Number of documents in the collection: {document_count}")
 
 # 쿼리를 통한 도큐먼트 수 조회
 query_document_count = posts.count_documents({"author": "Mike"})
 print(f" /// Number of documents with author 'Mike': {query_document_count}")
+print()
+
+# =======================================================================================
 
 # 7. 범위 쿼리
 # MongoDB는 여러 고급 쿼리를 사용할 수 있다.
 # 특정 날짜 이전의 Document들을 author별로 정렬
-d = datetime.datetime(2024, 1, 24, 23, 23, 59) # (year, month, day, hour, minute, second)
-for post in posts.find({'date': {'$lt': d}}).sort('author'):
-    pprint.pprint(post)
- 
+# d = datetime.datetime(2024, 1, 24, 23, 23, 59) # (year, month, day, hour, minute, second)
+# for post in posts.find({'date': {'$lt': d}}).sort('author'):
+#     pprint.pprint(post)
 
+# =======================================================================================
+
+# 8. 인덱싱
+import pymongo
+
+# Indexing
+result = db.profiles.create_index([('user_id', pymongo.ASCENDING)],unique=True)
+
+# 두 개의 인덱스 확인
+list(db.profiles.index_information())
+
+# 생성된 인덱스 확인
+print(" /// Created indexes:")
+for index_name in sorted(db.profiles.index_information()):
+    print(f"   - {index_name}")
+
+from pymongo.errors import DuplicateKeyError
+
+print()
 print(" < 모든 작업이 성공적으로 완료되었습니다 > ")
