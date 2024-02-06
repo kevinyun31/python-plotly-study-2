@@ -97,5 +97,5 @@ for profile in [duplicate_profile]:  # 이미 추가된 new_profile을 제외
 for doc in profiles_collection.find():
     pprint.pprint(doc)
 
-print()
+print("커밋 테스트")
 print(" < 모든 작업이 성공적으로 완료되었습니다 > ")
